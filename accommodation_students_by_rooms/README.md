@@ -1,4 +1,4 @@
-# Project to get information about students
+# Student Accommodation Information Project
 
 ## Description
 
@@ -8,13 +8,11 @@ This utility load data to the MySQL/PostgreSQL database ... ang display the nece
 
 There are several options of this command application:
 
-```--list_count ```, ```-l```: List of rooms and number of students in each of them.
+```--students ```, ```-sp```: Path to students file.
 
-```--min_avg ```: 5 rooms where the average age of students is the smallest.
+```--rooms ```, ```-rp```: Path to rooms file.
 
-```--max_avg ```: 5 rooms with the biggest age difference between students.
-
-```--list_of_mix ```: List of rooms where mixed-sex students live.
+```--format ```, ```-f```: Choose in which format to save the information. Like: xml, json, csv, etc. Default value "json".
 
 ```--help```, ```-h``` : get the manual
 
@@ -32,7 +30,7 @@ Usage examples:
 1)To get list of rooms and number of students in each of them
 
 ```sh
-$python main.py
+$python main.py -sp 'path to the file' -rp 'path to the file' -f 'json'
 ```  
 
 It returns:
