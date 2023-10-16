@@ -2,7 +2,7 @@
 
 ## Description
 
-accommodation_students_by_rooms is a Python tool to ...
+students_accommodation is a Python tool to ...
 This utility load data to the MySQL/PostgreSQL database ... ang display the necessary information.
 #### Features
 
