@@ -1,4 +1,8 @@
+import logging
+
 LIST_OF_FORMATS = ["json", "xml", "csv"]
+
+logger = logging.getLogger(__name__)
 
 
 def modify_parser(parser):
