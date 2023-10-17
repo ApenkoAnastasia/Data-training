@@ -1,4 +1,5 @@
 class Room:
+    """Room class. For saving information about rooms from .json file."""
 
     def __init__(self, room_id, name):
         self.room_id = room_id
@@ -9,6 +10,7 @@ class Room:
 
 
 class Student:
+    """Student class. For saving information about students from .json file."""
 
     def __init__(self, student_id, name, room, birthday, sex):
         self.student_id = student_id
@@ -18,5 +20,5 @@ class Student:
         self.sex = sex
 
     def display_info(self):
-        print(f'Name: {self.name}  ID: {self.student_id} '
-              f'Room Number: {self.room} Birthday: {self.birthday} Gender: {self.sex}')
+        print(f"Name: {self.name}  ID: {self.student_id} "
+              f"Room Number: {self.room} Birthday: {self.birthday} Gender: {self.sex}")
