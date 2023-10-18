@@ -7,24 +7,18 @@ def get_config():
     return config
 
 
-def add_pathconfig(stud_path_cli: str, room_path_cli: str):
+def add_path_config(stud_path_cli: str, room_path_cli: str):
     config = get_config()
 
     config.add_section('CLI variables')
-    config['CLI variables']['students_path'] = stud_path_cli
-    config['CLI variables']['rooms_path'] = room_path_cli
+    config.set('CLI variables', 'students_path', stud_path_cli)  # insert block try-except + logging for duplicates !!!!
+    config.set('CLI variables', 'rooms_path', room_path_cli)
 
     with open('settings.ini', 'a') as config_file:
         config.write(config_file)
 
-    config.read('settings.ini')
-    print('Params from config: ')
-    print(config['CLI variables']['rooms_path'])
-    print(config['CLI variables']['students_path'])
-    print(config['Paths']['source_dir'])
 
-
-def get_dbconfig():
+def get_db_config():
     config = get_config()
 
     config.read('settings.ini')
@@ -35,3 +29,14 @@ def get_dbconfig():
     db = config['Database']['db_name']
     print('Database params from config: ')
     print(un, pas, host, db)
+
+
+def get_format_config() -> tuple[str, str]:
+    config = get_config()
+
+    config.read('settings.ini')
+
+    delimiter = config['Formats']['delimiter']
+    date_format = config['Formats']['date_format']
+
+    return delimiter, date_format

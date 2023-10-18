@@ -3,14 +3,13 @@ import logging.config
 
 from src.students_accommodation.cli_parser import modify_parser
 from src.students_accommodation.config_parser import *
+from src.students_accommodation.file_parser import *
 from src.students_accommodation.logging_config import LOGGING_CONFIG
 
 logger = logging.getLogger(__name__)
 
 
 if __name__ == "__main__":
-    """Entry point."""
-
     logging.config.dictConfig(LOGGING_CONFIG)
 
     parser = argparse.ArgumentParser(prog="main.py",
@@ -23,22 +22,10 @@ if __name__ == "__main__":
 
     st_path, rm_path = args.students_path, args.rooms_path
 
-    add_pathconfig(st_path, rm_path)
+    # add_path_config(st_path, rm_path)  # Add cli paths to settings.ini
 
-    get_dbconfig()
+    # get_db_config()
 
-    # def get_config():
-    #     '''Get data to connection.
-    #
-    #     Function that return dictionary of config data.
-    #
-    #     return -- dictionary of config data
-    #
-    #     '''
-    #     config = {}
-    #     with open('/Client/config.txt', 'r') as file:
-    #         for line in file.readlines():
-    #             data = line.strip().split(Delimiter)
-    #             config[data[0]] = ''.join(data[1:])
-    #
-    #     return config
+    # delimiter = get_format_config()[0]
+
+    json_parser(rm_path)

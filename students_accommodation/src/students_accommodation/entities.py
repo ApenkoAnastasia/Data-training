@@ -8,20 +8,19 @@ class Room:
         self.room_id = int(room_id)
         self.name = str(name)
 
-    def display_info(self):
-        print(f"Room name: {self.name}  ID: {self.room_id}")
+    def __str__(self):
+        return f"Room name: {self.name}  ID: {self.room_id}"
 
 
 class Student:
     """Student class. For saving information about students from .json file."""
 
-    def __init__(self, student_id: int, name: str, room: int, birthday: datetime, sex: str):
+    def __init__(self, student_id: str, name: str, room: str, birthday: str, sex: str):
         self.student_id = int(student_id)
         self.name = str(name)
         self.room = int(room)
-        self.birthday = datetime.strftime(birthday, '%Y-%m-%dT%H:%M:%S')
+        self.birthday = datetime.strptime(birthday, '%Y-%m-%dT%H:%M:%S.%f')
         self.sex = str(sex)
 
-    def display_info(self):
-        print(f"Name: {self.name}  ID: {self.student_id} "
-              f"Room Number: {self.room} Birthday: {self.birthday} Gender: {self.sex}")
+    def __str__(self):
+        return f"Name: {self.name}  ID: {self.student_id} Room Number: {self.room} Birthday: {self.birthday} Gender: {self.sex}"
