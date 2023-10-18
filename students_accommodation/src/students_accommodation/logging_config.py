@@ -1,4 +1,4 @@
-ERROR_LOG_FILENAME = ".tryceratops-errors.log"
+ERROR_LOG_FILENAME = ".students_accommodation_errors.log"
 
 LOGGING_CONFIG = {
     "version": 1,
@@ -28,7 +28,7 @@ LOGGING_CONFIG = {
         },
     },
     "loggers": {
-        "tryceratops": {
+        "students_accommodation": {
             "level": "INFO",
             "handlers": [
                 "verbose_output",
