@@ -2,7 +2,7 @@
 
 ## Description
 
-students_accommodation is a Python tool to ...
+students_accommodation is a Python CLI application to ...
 This utility load data to the MySQL/PostgreSQL database ... ang display the necessary information.
 #### Features
 
@@ -17,10 +17,18 @@ There are several options of this command application:
 ```--help```, ```-h``` : get the manual
 
 ## Installation
-#### Requirements 
+#### Requirements
 Get_movies requires [Python](https://www.python.org/downloads/)  v3+ to run and MySQL/PostgreSQL on your computer.
 
-... 
+Create a virtual environment:
+```sh
+$ . venv/bin/activate
+```
+Install the requirements:
+
+```sh
+$ pip install -r requirements.txt
+```
 
 ## Usage
 
@@ -31,10 +39,10 @@ Usage examples:
 
 ```sh
 $python main.py -sp 'path to the file' -rp 'path to the file' -f 'json'
-```  
+```
 
 It returns:
-   
+
 ```sh
 
     ...
