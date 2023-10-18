@@ -12,7 +12,7 @@ def json_parser(file_path: str):
         parsed_json = json.load(file)
         for item in parsed_json:
             room_obj = Room(item['id'], item['name'])
-            print(room_obj)
+            print(room_obj) # checking
 
         # room_obj = json.load(file, object_hook=customRoomDecoder)
 
