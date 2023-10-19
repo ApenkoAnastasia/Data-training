@@ -1,5 +1,7 @@
 import configparser
 
+SETTINGS_PATH = './properties/settings.ini'
+
 
 def get_config():
     config = configparser.ConfigParser()
@@ -14,14 +16,14 @@ def add_path_config(stud_path_cli: str, room_path_cli: str):
     config.set('CLI variables', 'students_path', stud_path_cli)  # insert block try-except + logging for duplicates !!!!
     config.set('CLI variables', 'rooms_path', room_path_cli)
 
-    with open('settings.ini', 'a') as config_file:
+    with open(SETTINGS_PATH, 'a') as config_file:
         config.write(config_file)
 
 
 def get_db_config():
     config = get_config()
 
-    config.read('settings.ini')
+    config.read(SETTINGS_PATH)
 
     un = config['Database']['user_name']
     pas = config['Database']['password']
@@ -34,7 +36,7 @@ def get_db_config():
 def get_format_config() -> tuple[str, str]:
     config = get_config()
 
-    config.read('settings.ini')
+    config.read(SETTINGS_PATH)
 
     delimiter = config['Formats']['delimiter']
     date_format = config['Formats']['date_format']
