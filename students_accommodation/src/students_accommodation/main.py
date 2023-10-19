@@ -1,36 +1,46 @@
 import argparse
 import logging.config
+import cli_parser
+import config_parser
+import entities
+import logging_config
 
-from src.students_accommodation.cli_parser import modify_parser
-from src.students_accommodation.config_parser import *
-from src.students_accommodation.file_parser import *
-from src.students_accommodation.entities import *
-from src.students_accommodation.logging_config import LOGGING_CONFIG
+from file_parser import json_parser
+
 
 logger = logging.getLogger(__name__)
 
-if __name__ == "__main__":
-    logging.config.dictConfig(LOGGING_CONFIG)
+
+def main():
+    logging.config.dictConfig(logging_config.LOGGING_CONFIG)
 
     parser = argparse.ArgumentParser(prog="main.py",
                                      description="Help to get information about students accommodation by rooms.",
                                      epilog="For more details go to the README.md.")
 
-    parser = modify_parser(parser)
+    parser = cli_parser.modify_parser(parser)
 
     args = parser.parse_args()
 
     st_path, rm_path = args.students_path, args.rooms_path
 
-    # add_path_config(st_path, rm_path)  # Add cli paths to settings.ini
+    # config_parser.add_path_config(st_path, rm_path)  # Add cli paths to settings.ini
 
-    # get_db_config()
+    # config_parser.get_db_config()
 
-    # delimiter = get_format_config()[0]
+    # delimiter = config_parser.get_format_config()[0]
 
-    parsed_json = json_parser(rm_path)
+    parsed_json = json_parser(st_path)
 
-    print(type(parsed_json))
-    for item in parsed_json:
-        room_obj = Room(**item)
-        print(room_obj)
+    # for item in parsed_json:        # test class, shouldn’t show up in prod
+    #     room_obj = entities.Room(**item)
+    #     print(room_obj)
+
+    print(parsed_json)
+    for item in parsed_json:  # test class, shouldn’t show up in prod
+        student_obj = entities.Student(**item)
+        print(student_obj)
+
+
+if __name__ == "__main__":
+    main()
