@@ -1,15 +1,24 @@
 from datetime import datetime
 
 
-class Room:
-    """Room class. For saving information about rooms from .json file."""
+# class Lt_room:
+#     """Room class. For saving information about rooms from .json file."""
+#
+#     def __init__(self, room_id: int, name: str):
+#         self.room_id = int(room_id)
+#         self.name = str(name)
+#
+#     def __str__(self):
+#         return f"Room name: {self.name}  ID: {self.room_id}"
 
-    def __init__(self, room_id: int, name: str):
-        self.room_id = int(room_id)
+
+class Room(object):
+    def __init__(self, id: int, name: str):
+        self.room_id = int(id)
         self.name = str(name)
 
     def __str__(self):
-        return f"Room name: {self.name}  ID: {self.room_id}"
+        return f"Room name: {self.name}  ID: {self.room_id}, Types: {type(self.room_id)}"
 
 
 class Student:

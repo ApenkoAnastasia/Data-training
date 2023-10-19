@@ -4,10 +4,10 @@ import logging.config
 from src.students_accommodation.cli_parser import modify_parser
 from src.students_accommodation.config_parser import *
 from src.students_accommodation.file_parser import *
+from src.students_accommodation.entities import *
 from src.students_accommodation.logging_config import LOGGING_CONFIG
 
 logger = logging.getLogger(__name__)
-
 
 if __name__ == "__main__":
     logging.config.dictConfig(LOGGING_CONFIG)
@@ -28,4 +28,9 @@ if __name__ == "__main__":
 
     # delimiter = get_format_config()[0]
 
-    json_parser(rm_path)
+    parsed_json = json_parser(rm_path)
+
+    print(type(parsed_json))
+    for item in parsed_json:
+        room_obj = Room(**item)
+        print(room_obj)
