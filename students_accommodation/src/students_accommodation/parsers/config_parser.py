@@ -1,6 +1,7 @@
 import configparser
 
 SETTINGS_PATH = './properties/settings.ini'
+TYPES_DB = ['MySQL', 'Postgres', 'MongoDB']
 
 
 def get_config():
@@ -20,16 +21,16 @@ def add_path_config(stud_path_cli: str, room_path_cli: str) -> None:
         config.write(config_file)
 
 
-def get_db_config() -> dict:
+def get_db_config(db_name: str) -> dict:
     config = get_config()
 
     config.read(SETTINGS_PATH)
 
-    uname = config['Database']['user_name']
-    pwd = config['Database']['password']
-    host = config['Database']['host']
-    port = config['Database']['port']
-    db = config['Database']['db_name']
+    uname = config[db_name]['user_name']
+    pwd = config[db_name]['password']
+    host = config[db_name]['host']
+    port = config[db_name]['port']
+    db = config[db_name]['db_name']
 
     db_config = {'user': uname, 'password': pwd, 'host': host, 'port': port, 'database': db, 'allow_local_infile': True}
 

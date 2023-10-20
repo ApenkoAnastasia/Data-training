@@ -1,6 +1,7 @@
 import logging
 
-LIST_OF_FORMATS = ["json", "xml", "csv"]
+LIST_OF_FORMATS = ['json', 'xml', 'csv']
+TYPES_DB = ['MySQL', 'Postgres', 'MongoDB']
 
 logger = logging.getLogger(__name__)
 
@@ -31,6 +32,12 @@ def modify_parser(parser):
                         default=LIST_OF_FORMATS[0],
                         type=str,
                         help="Choose in which format to save the information. Default format - json.")
+
+    parser.add_argument("--database", "-db",
+                        choices=TYPES_DB,
+                        default=TYPES_DB[0],
+                        type=str,
+                        help="Choose database to save the information. Default format - MySQL.")
 
     parser.add_argument("--list_count", "-lc",
                         type=int,

@@ -1,42 +1,30 @@
-from typing import Tuple, List
-
-import mysql.connector as mc
-from mysql.connector import MySQLConnection, CMySQLConnection
-from mysql.connector.constants import ClientFlag
-from mysql.connector.cursor import MySQLCursor
-from mysql.connector.cursor_cext import CMySQLCursor
-from mysql.connector.pooling import PooledMySQLConnection
+from src.students_accommodation.db_services.connectors.mysql_connector import connect_to_mysql
 
 
-def db_connect(config: dict) -> list[
-    PooledMySQLConnection | MySQLConnection | CMySQLConnection | MySQLCursor | CMySQLCursor]:
-    """
-
-    :rtype: list
-    """
-    try:
-        cnx = mc.connect(**config)
-        if cnx.is_connected():
-            print(f"Connected to database: {config['database']}")
-            cursor = cnx.cursor()
-
-            cursor_config = [cnx, cursor]
-            return cursor_config
-    except Exception as e:
-        print("Doesn't connect to DB.")
-
-
-def load_data(config: dict):
+def load_to_mysql(config: dict):
     """
 
     :param config: dict
     """
+    cnx = connect_to_mysql(config)
+    if cnx and cnx.is_connected():
+        print(f"Connected to database: {config['database']}")
 
-    cursor_config = db_connect(config)
+        with cnx.cursor() as cursor:
 
-    # cursor.callproc('selectResultProcedure', args)
-    cnx, cursor = cursor_config
+            result = cursor.execute("SELECT * FROM students_list LIMIT 5")
 
-    cursor.close()
+            rows = cursor.fetchall()
 
-    cnx.close()
+            for row in rows:
+                print(row)
+
+        cnx.close()
+
+    else:
+
+        print("Could not connect")
+
+
+def load_to_postgres(config: dict):
+    pass
