@@ -17,10 +17,10 @@ function setup_db {
   if check_connection $CHECK_CONNECTION -eq 0 ;
   then
     echo "Database exists. Check it in DBeaver."
-#    mysql -u "$USERNAME" -p"$PASSWORD" < ./db_admin/DML/truncateTables.sql
-#    mysql -u "$USERNAME" -p"$PASSWORD" < ./db_admin/DML/selectResultsProcedure.sql
+#    mysql -u "$USERNAME" -p"$PASSWORD" < ./db_admin/DML/truncate/truncateDestinationTables.sql
+#    mysql -u "$USERNAME" -p"$PASSWORD" < ./db_admin/DML/procedures/selectResultsProcedure.sql
   else
-    echo "Database DOESEN'T exists. Check it in DBeaver. Lest's create them."
+    echo "Database DOESN'T exists. Check it in DBeaver. Let's create them."
     mysql -u "$USERNAME" -p"$PASSWORD" < ./db_admin/DDL/createDestinationDB.sql
     mysql -u "$USERNAME" -p"$PASSWORD" < ./db_admin/DDL/createRoomTable.sql
     mysql -u "$USERNAME" -p"$PASSWORD" < ./db_admin/DDL/createStudentTable.sql

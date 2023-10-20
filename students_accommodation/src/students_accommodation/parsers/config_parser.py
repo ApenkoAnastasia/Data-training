@@ -9,7 +9,7 @@ def get_config():
     return config
 
 
-def add_path_config(stud_path_cli: str, room_path_cli: str):
+def add_path_config(stud_path_cli: str, room_path_cli: str) -> None:
     config = get_config()
 
     config.add_section('CLI variables')
@@ -20,17 +20,20 @@ def add_path_config(stud_path_cli: str, room_path_cli: str):
         config.write(config_file)
 
 
-def get_db_config():
+def get_db_config() -> dict:
     config = get_config()
 
     config.read(SETTINGS_PATH)
 
-    un = config['Database']['user_name']
-    pas = config['Database']['password']
+    uname = config['Database']['user_name']
+    pwd = config['Database']['password']
     host = config['Database']['host']
+    port = config['Database']['port']
     db = config['Database']['db_name']
-    print('Database params from config: ')
-    print(un, pas, host, db)
+
+    db_config = {'user': uname, 'password': pwd, 'host': host, 'port': port, 'database': db, 'allow_local_infile': True}
+
+    return db_config
 
 
 def get_format_config() -> tuple[str, str]:
