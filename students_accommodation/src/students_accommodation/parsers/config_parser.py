@@ -1,7 +1,6 @@
 import configparser
 
 SETTINGS_PATH = './properties/settings.ini'
-TYPES_DB = ['MySQL', 'Postgres', 'MongoDB']
 
 
 def get_config():
@@ -35,6 +34,14 @@ def get_db_config(db_name: str) -> dict:
     db_config = {'user': uname, 'password': pwd, 'host': host, 'port': port, 'database': db, 'allow_local_infile': True}
 
     return db_config
+
+
+def get_table_names() -> tuple[str, str]:
+    config = get_config()
+
+    config.read(SETTINGS_PATH)
+
+    return config['Tables']['table1'], config['Tables']['table2']
 
 
 def get_format_config() -> tuple[str, str]:

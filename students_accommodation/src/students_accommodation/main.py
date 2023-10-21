@@ -1,7 +1,7 @@
 import argparse
 import logging.config
 
-from src.students_accommodation.parsers.config_parser import add_path_config, get_db_config, get_format_config
+from src.students_accommodation.parsers.config_parser import *
 from src.students_accommodation.parsers.file_parser import json_parser
 from src.students_accommodation.parsers.cli_parser import modify_parser
 from src.students_accommodation.logger import logging_config
@@ -25,13 +25,16 @@ def main():
     # add_path_config(st_path, rm_path)  # Add cli paths to settings.ini
 
     db_config = get_db_config(db_name)
+    print(db_config)
 
-    load_to_mysql(db_config)
+    table1, table2 = get_table_names()
+
+    load_to_mysql(db_config, table2)
 
     # delimiter = get_format_config()[0] # Get .ini configs
 
-    # parsed_json = json_parser(st_path)
-
+    # parsed_json = json_parser(rm_path)
+    #
     # for item in parsed_json:        # test class, shouldn’t show up in prod
     #     room_obj = Room(**item)
     #     print(room_obj)
