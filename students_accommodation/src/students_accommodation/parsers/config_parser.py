@@ -1,6 +1,7 @@
 import configparser
 
 SETTINGS_PATH = './properties/settings.ini'
+DB_CONFIGS = ['user', 'password', 'host', 'port', 'database']
 
 
 def get_config():
@@ -25,13 +26,12 @@ def get_db_config(db_name: str) -> dict:
 
     config.read(SETTINGS_PATH)
 
-    uname = config[db_name]['user_name']
-    pwd = config[db_name]['password']
-    host = config[db_name]['host']
-    port = config[db_name]['port']
-    db = config[db_name]['db_name']
+    db_config = {}
 
-    db_config = {'user': uname, 'password': pwd, 'host': host, 'port': port, 'database': db, 'allow_local_infile': True}
+    for section in DB_CONFIGS:
+        db_config[section] = config[db_name][section]
+
+    db_config['allow_local_infile'] = True
 
     return db_config
 
