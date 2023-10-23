@@ -4,7 +4,6 @@ from src.students_accommodation.parsers.file_parser import json_parser
 
 
 def get_sql_query(table_name: str):
-
     match table_name:
 
         case 'room_list':
@@ -19,7 +18,6 @@ def get_sql_query(table_name: str):
 
 
 def get_object(table_name: str, item: dict):
-
     match table_name:
 
         case 'room_list':
@@ -63,11 +61,13 @@ def load_to_mysql(config: dict, table_name: str, data_to_be_inserted: list):
                 cnx.commit()
                 # print(cursor.rowcount, " rows got inserted. ")
             # print(emp_no)
+        print('Copied data to DB.')
         cursor.close()
         cnx.close()
 
 
 def full_load(order_paths: list, order_tables: list, config: dict):
+
     for i in range(len(order_paths)):
         parsed_json = json_parser(order_paths[i])
         load_to_mysql(config, order_tables[i], parsed_json)
