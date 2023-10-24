@@ -31,4 +31,4 @@ BEGIN
 END//
 DELIMITER ;
 
-CALL get_min_average_age;
+--CALL get_min_average_age;

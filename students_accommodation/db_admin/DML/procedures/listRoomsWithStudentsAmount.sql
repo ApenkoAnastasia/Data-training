@@ -10,4 +10,4 @@ BEGIN
 END//
 DELIMITER ;
 
-CALL get_amount_of_students_in_rooms;
+--CALL get_amount_of_students_in_rooms;

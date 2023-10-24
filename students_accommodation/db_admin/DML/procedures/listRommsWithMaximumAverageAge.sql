@@ -30,4 +30,4 @@ BEGIN
 END//
 DELIMITER ;
 
-CALL get_max_average_age;
+--CALL get_max_average_age;

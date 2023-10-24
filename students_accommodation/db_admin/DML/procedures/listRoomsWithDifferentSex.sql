@@ -15,4 +15,4 @@ BEGIN
 END//
 DELIMITER ;
 
-CALL get_rooms_with_different_sex;
+--CALL get_rooms_with_different_sex;
