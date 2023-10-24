@@ -82,5 +82,85 @@
     {
         "id": 20,
         "name": "Room #20"
+    },
+    {
+        "id": 21,
+        "name": "Room #21"
+    },
+    {
+        "id": 22,
+        "name": "Room #22"
+    },
+    {
+        "id": 23,
+        "name": "Room #23"
+    },
+    {
+        "id": 24,
+        "name": "Room #24"
+    },
+    {
+        "id": 25,
+        "name": "Room #25"
+    },
+    {
+        "id": 26,
+        "name": "Room #26"
+    },
+    {
+        "id": 27,
+        "name": "Room #27"
+    },
+    {
+        "id": 28,
+        "name": "Room #28"
+    },
+    {
+        "id": 29,
+        "name": "Room #29"
+    },
+    {
+        "id": 30,
+        "name": "Room #30"
+    },
+    {
+        "id": 31,
+        "name": "Room #31"
+    },
+    {
+        "id": 32,
+        "name": "Room #32"
+    },
+    {
+        "id": 33,
+        "name": "Room #33"
+    },
+    {
+        "id": 34,
+        "name": "Room #34"
+    },
+    {
+        "id": 35,
+        "name": "Room #35"
+    },
+    {
+        "id": 36,
+        "name": "Room #36"
+    },
+    {
+        "id": 37,
+        "name": "Room #37"
+    },
+    {
+        "id": 38,
+        "name": "Room #38"
+    },
+    {
+        "id": 39,
+        "name": "Room #39"
+    },
+    {
+        "id": 40,
+        "name": "Room #40"
     }
   ]
