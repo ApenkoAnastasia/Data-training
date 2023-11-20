@@ -1,3 +1,6 @@
+from decimal import *
+import json
+
 from src.students_accommodation.db_services.connectors.mysql_connector import connect_to_mysql
 
 
@@ -20,18 +23,18 @@ def get_procedure_name(argument: str):
             print('Wrong argument when trying call procedure.')
 
 
-def write_in_file(file_format: str):
+def write_in_file(file_format: str, data: list, p_name: str):
     match file_format:
 
         case 'json':
-            return "INSERT INTO room_list (room_id, room_name) VALUES (%s, %s);"
+            with open(f'./output/{p_name}_data.json', 'w') as file:
+                json.dump(data, file, indent=4)
 
         case 'xml':
-            return ("INSERT INTO students_list (birthday, student_id, student_name, room_id, sex) "
-                    "VALUES (%s, %s, %s, %s, %s);")
+            pass
 
         case 'csv':
-            return ""
+            pass
 
         case _:
             print('Wrong file format when trying write into file.')
@@ -45,19 +48,38 @@ def get_results_from_db(db_config: dict, procedures_args: dict, file_format: str
             with connect_to_mysql(db_config) as cnx:
 
                 if not cnx or not cnx.is_connected():
-                    print("Could not connect")
+                    print('Could not connect')
                 else:
                     print(f"Connected to database: {db_config['database']}")  # test load func, shouldn’t show up in prod
 
                     with cnx.cursor() as cursor:
                         p_name = get_procedure_name(key)
-                        cursor.callproc(p_name)
-                        # for col_id in cursor.stored_results():
-                        #     columnsProperties = (col_id.description)
-                        #     print([column[0] for column in columnsProperties])
+                        cursor.callproc(p_name)  # calling procedures
+
+                        list_results = []
+                        new_list = []
                         for result in cursor.stored_results():
-                            dict_res = {}
-                            print(result.description)
-                            print(result.fetchall())
+                            list_result_keys = []
+
+                            for field in result.description:
+                                list_result_keys.append(field[0]) # get column name from description
+
+                            data = result.fetchall()
+
+                            for item in data:
+                                list_results.append(dict(zip(list_result_keys, item)))
+
+                            for list_item in list_results:
+                                new_dict = {}
+                                for d_key, d_value in list_item.items():
+
+                                    if isinstance(d_value, Decimal):
+                                        new_dict[d_key] = float(d_value)
+                                    else:
+                                        new_dict[d_key] = d_value
+
+                                new_list.append(new_dict)
+
+                            write_in_file(file_format, new_list, p_name)
 
                 print('Scrap data from DB.')

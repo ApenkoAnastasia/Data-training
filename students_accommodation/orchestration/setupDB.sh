@@ -28,4 +28,5 @@ function setup_db {
   fi
 }
 
+
 setup_db;

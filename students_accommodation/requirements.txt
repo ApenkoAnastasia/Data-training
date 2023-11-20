@@ -1,2 +1,3 @@
-pre-commit
 argparse~=1.4.0
+mysql-connector-python~=8.1.0
+pre-commit
