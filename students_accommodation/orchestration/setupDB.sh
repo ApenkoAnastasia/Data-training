@@ -3,6 +3,7 @@
 # get variables from config.txt
 . ./properties/config.txt
 
+# function for connection to DB
 function check_connection {
   if mysql -u "$USERNAME" -p"$PASSWORD" -e "USE $DATABASE";
   then
@@ -12,7 +13,7 @@ function check_connection {
   fi
 }
 
-# create database & table
+# function for creation database & table
 function setup_db {
   if check_connection $CHECK_CONNECTION -eq 0 ;
   then

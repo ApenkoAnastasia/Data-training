@@ -3,6 +3,11 @@
 __pycache__/
 *$py.class
 
+# Folders
+output/
+source/
+
+
 # Log files
 *.log
 

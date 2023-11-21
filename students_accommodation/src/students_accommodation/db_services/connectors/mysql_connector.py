@@ -19,6 +19,13 @@ logger.addHandler(file_handler)
 
 
 def connect_to_mysql(config: dict, attempts=3, delay=2):
+    """ Receive connection to MySQL DB.
+
+    :param config: configurations for connection to MySQL DB
+    :param attempts: number of attempts connection to DB (default=3)
+    :param delay: time for waiting answer from server
+    :return: connection or throw exception to log file
+    """
     attempt = 1
     # Implement a reconnection routine
     while attempt < attempts + 1:

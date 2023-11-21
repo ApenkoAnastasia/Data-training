@@ -5,12 +5,21 @@ DB_CONFIGS = ['user', 'password', 'host', 'port', 'database']
 
 
 def get_config():
+    """ Receive config object
+
+    :return: config object
+    """
     config = configparser.ConfigParser()
 
     return config
 
 
 def add_path_config(stud_path_cli: str, room_path_cli: str) -> None:
+    """ Write path of input files into config doc.
+
+    :param stud_path_cli: path to students file
+    :param room_path_cli: path to room list file
+    """
     config = get_config()
 
     config.add_section('CLI variables')
@@ -22,6 +31,11 @@ def add_path_config(stud_path_cli: str, room_path_cli: str) -> None:
 
 
 def get_db_config(db_name: str) -> dict:
+    """  Receive configurations to DB connection from config doc.
+
+    :param db_name: DB name from CLI
+    :return: dictionary with configurations to connection
+    """
     config = get_config()
 
     config.read(SETTINGS_PATH)
@@ -37,6 +51,10 @@ def get_db_config(db_name: str) -> dict:
 
 
 def get_table_names() -> tuple[str, str]:
+    """ Receive table names from DB.
+
+    :return: tuple with table names
+    """
     config = get_config()
 
     config.read(SETTINGS_PATH)
@@ -45,6 +63,10 @@ def get_table_names() -> tuple[str, str]:
 
 
 def get_format_config() -> tuple[str, str]:
+    """ Receive formats for further transformations.
+
+    :return: tuple with strings of formats
+    """
     config = get_config()
 
     config.read(SETTINGS_PATH)

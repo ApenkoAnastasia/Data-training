@@ -7,16 +7,11 @@ logger = logging.getLogger(__name__)
 
 
 def modify_parser(parser):
+    """ Method for parsing input arguments.
+
+    :param parser: object with input arguments (ArgumentParser object)
+    :return: object with parsed input arguments (ArgumentParser object)
     """
-    Method for parsing input arguments.
-
-    Parameters:
-        parser (ArgumentParser object): object with input arguments
-
-    Returns:
-        parser (ArgumentParser object): object with parsed input arguments
-    """
-
     parser.add_argument("--students_path", "-sp",
                         type=str,
                         required=True,

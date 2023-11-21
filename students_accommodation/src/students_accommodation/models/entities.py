@@ -2,6 +2,7 @@ from datetime import datetime
 
 
 class Room(object):
+    """Room class. For saving information about room list from file."""
     def __init__(self, id: int, name: str):
         self.room_id = int(id)
         self.name = str(name)
@@ -14,7 +15,7 @@ class Room(object):
 
 
 class Student(object):
-    """Student class. For saving information about students from .json file."""
+    """Student class. For saving information about students from file."""
 
     def __init__(self, id: str, name: str, room: str, birthday: str, sex: str):
         self.birthday = datetime.strptime(birthday, '%Y-%m-%dT%H:%M:%S.%f')
