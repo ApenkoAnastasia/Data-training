@@ -1,8 +1,9 @@
-from decimal import *
 import json
 
 from src.students_accommodation.db_services.connectors.mysql_connector import connect_to_mysql
-
+from decimal import *
+from dicttoxml import dicttoxml
+from xml.dom.minidom import parseString
 
 def get_procedure_name(argument: str):
     match argument:
@@ -23,15 +24,19 @@ def get_procedure_name(argument: str):
             print('Wrong argument when trying call procedure.')
 
 
-def write_in_file(file_format: str, data: list, p_name: str):
+def write_in_file(file_format: str, data: list, procedure_name: str):
     match file_format:
 
         case 'json':
-            with open(f'./output/{p_name}_data.json', 'w') as file:
+            with open(f'./output/{procedure_name}_data.{file_format}', 'w') as file:
                 json.dump(data, file, indent=4)
 
         case 'xml':
-            pass
+            xml = dicttoxml(data)
+            parsed_xml = parseString(xml)
+            with open(f'./output/{procedure_name}_data.{file_format}', 'w') as file_name:
+                print(parsed_xml.toprettyxml(), file=file_name)
+            # print(parsed_xml.toprettyxml())
 
         case 'csv':
             pass
@@ -53,8 +58,8 @@ def get_results_from_db(db_config: dict, procedures_args: dict, file_format: str
                     print(f"Connected to database: {db_config['database']}")  # test load func, shouldn’t show up in prod
 
                     with cnx.cursor() as cursor:
-                        p_name = get_procedure_name(key)
-                        cursor.callproc(p_name)  # calling procedures
+                        procedure_name = get_procedure_name(key)
+                        cursor.callproc(procedure_name)  # calling procedures
 
                         list_results = []
                         new_list = []
@@ -80,6 +85,7 @@ def get_results_from_db(db_config: dict, procedures_args: dict, file_format: str
 
                                 new_list.append(new_dict)
 
-                            write_in_file(file_format, new_list, p_name)
+                            write_in_file(file_format, new_list, procedure_name)
+                            # print(new_list)
 
                 print('Scrap data from DB.')
