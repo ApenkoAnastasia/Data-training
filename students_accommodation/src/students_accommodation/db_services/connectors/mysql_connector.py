@@ -13,7 +13,7 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 # Also log to a file
-file_handler = logging.FileHandler("cpy-errors.log")
+file_handler = logging.FileHandler("mysql_connection_errors.log")
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
