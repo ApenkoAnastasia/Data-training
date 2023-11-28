@@ -1,7 +1,10 @@
 import configparser
+import logging
+from typing import Tuple
 
 SETTINGS_PATH = './properties/settings.ini'
 DB_CONFIGS = ['user', 'password', 'host', 'port', 'database']
+logger = logging.getLogger('studentsLog')
 
 
 def get_config():
@@ -23,7 +26,7 @@ def add_path_config(stud_path_cli: str, room_path_cli: str) -> None:
     config = get_config()
 
     config.add_section('CLI variables')
-    config.set('CLI variables', 'students_path', stud_path_cli)  # insert block try-except + logging for duplicates !!!!
+    config.set('CLI variables', 'students_path', stud_path_cli)
     config.set('CLI variables', 'rooms_path', room_path_cli)
 
     with open(SETTINGS_PATH, 'a') as config_file:
@@ -75,3 +78,29 @@ def get_format_config() -> tuple[str, str]:
     date_format = config['Formats']['date_format']
 
     return delimiter, date_format
+
+
+def get_students_path() -> str:
+    """ Get path to students file from config doc.
+
+        :return: string with path's to file from config
+        """
+    config = get_config()
+    config.read(SETTINGS_PATH)
+
+    stud_path = config['Paths']['students_path']
+
+    return stud_path
+
+
+def get_rooms_path() -> str:
+    """ Get path to rooms file from config doc.
+
+        :return: string with path's to file from config
+        """
+    config = get_config()
+    config.read(SETTINGS_PATH)
+
+    room_path = config['Paths']['rooms_path']
+
+    return room_path

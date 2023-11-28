@@ -1,6 +1,9 @@
 import json
+import logging
 
 from src.students_accommodation.parsers.file_hashing import get_file_hash
+
+logger = logging.getLogger('studentsLog')
 
 
 def json_parser(file_path: str) -> list:

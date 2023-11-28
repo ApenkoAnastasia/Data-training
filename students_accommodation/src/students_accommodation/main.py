@@ -1,28 +1,49 @@
 import argparse
 import logging.config
+import os
 
 from src.students_accommodation.parsers.cli_parser import modify_parser
 from src.students_accommodation.parsers.config_parser import *
 from src.students_accommodation.db_services.scrapers.get_results_from_DB import get_results_from_db
 from src.students_accommodation.parsers.file_parser import json_parser
-from src.students_accommodation.logger import logging_config
 from src.students_accommodation.db_services.loaders.load_to_db import load_to_mysql, full_load
 from src.students_accommodation.models.entities import *
 
-logger = logging.getLogger(__name__)
+LOG_CONFIG_PATH = './properties/logging.conf'
 
 
 def main():
-    logging.config.dictConfig(logging_config.LOGGING_CONFIG)
+    # create Logger
+    logging.config.fileConfig(LOG_CONFIG_PATH)
+    logger = logging.getLogger('studentsLog')
+
+    logger.info('Program started, main func.')
 
     # parse arguments from CLI
-    parser = argparse.ArgumentParser(prog="python3 -m src.students_accommodation.main",
-                                     description="Help to get information about students accommodation by rooms.",
-                                     epilog="For more details go to the README.md.")
+    parser = argparse.ArgumentParser(prog='python3 -m src.students_accommodation.main',
+                                     description='Help to get information about students accommodation by rooms.',
+                                     epilog='For more details go to the README.md.')
     parser = modify_parser(parser)
     args = parser.parse_args()
 
-    main_args = {'st_path': args.students_path, 'rm_path': args.rooms_path,
+    # file check
+    stud_path = args.students_path
+    room_path = args.rooms_path
+    try:
+        with open(args.students_path, 'r') as file:
+            logger.info(f"File {file} exists.")
+    except FileNotFoundError as err:
+        logger.warning(f"Cannot find file with students path {args.students_path}.", err)
+        stud_path = get_students_path()
+
+    try:
+        with open(args.rooms_path, 'r') as file:
+            logger.info(f"File {file} exists.")
+    except FileNotFoundError as err:
+        logger.warning(f"Cannot find file with rooms path {args.rooms_path}.", err)
+        room_path = get_rooms_path()
+
+    main_args = {'st_path': stud_path, 'rm_path': room_path,
                  'db_name': args.database, 'file_format': args.format}
 
     procedures_args = {'list_count': args.list_count, 'min_avg': args.min_avg,
@@ -44,6 +65,8 @@ def main():
 
     # receive processed data from DB and saving it into file
     get_results_from_db(db_config, procedures_args, main_args['file_format'])
+
+    logger.info('Program finished!')
 
 
 if __name__ == "__main__":

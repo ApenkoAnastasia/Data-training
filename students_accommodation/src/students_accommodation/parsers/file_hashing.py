@@ -1,6 +1,9 @@
 import hashlib
+import logging
 
 from os import path
+
+logger = logging.getLogger('studentsLog')
 
 
 def get_file_hash(filename: str) -> str:
@@ -10,6 +13,7 @@ def get_file_hash(filename: str) -> str:
     :return: hash of file (sha256)
     """
     if path.isfile(filename) is False:
+        logger.exception('File not found for hash operation.', FileNotFoundError)
         raise Exception("File not found for hash operation")
 
     h_sha256 = hashlib.sha256()

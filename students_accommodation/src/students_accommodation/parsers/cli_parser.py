@@ -1,9 +1,5 @@
-import logging
-
 LIST_OF_FORMATS = ['json', 'xml', 'csv']
 TYPES_DB = ['MySQL', 'Postgres', 'MongoDB']
-
-logger = logging.getLogger(__name__)
 
 
 def modify_parser(parser):

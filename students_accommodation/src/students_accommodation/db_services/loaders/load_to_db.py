@@ -1,6 +1,10 @@
+import logging
+
 from src.students_accommodation.models.entities import Room, Student
 from src.students_accommodation.parsers.file_parser import *
 from src.students_accommodation.db_services.connectors.mysql_connector import connect_to_mysql
+
+logger = logging.getLogger('studentsLog')
 
 
 def get_sql_query(table_name: str):
@@ -18,8 +22,8 @@ def get_sql_query(table_name: str):
             return ("INSERT INTO students_list (birthday, student_id, student_name, room_id, sex) "
                     "VALUES (%s, %s, %s, %s, %s);")
 
-        case _:
-            print('Wrong table name when trying get sql query.')
+        case _ as err:
+            logger.error('Wrong table name when trying get sql query.', err)
 
 
 def get_object(table_name: str, item: dict):
@@ -39,8 +43,8 @@ def get_object(table_name: str, item: dict):
             item_as_obj = Student(**item)
             return item_as_obj
 
-        case _:
-            print('Wrong table name when trying transform to class object.')
+        case _ as err:
+            logger.error('Wrong table name when trying transform to class object.', err)
 
 
 def get_processed_data(file_path: str, input_files_format: str = 'json') -> list:
@@ -66,8 +70,8 @@ def get_processed_data(file_path: str, input_files_format: str = 'json') -> list
             parsed_csv = csv_parser(file_path)
             return parsed_csv
 
-        case _:
-            print('Wrong reading file format when trying parse file.')
+        case _ as err:
+            logger.error('Wrong reading file format when trying parse file.', err)
 
 
 def get_db_loader_type(config: dict, table_name: str, parsed_data: list, db_type: str = 'MySQL') -> None:
@@ -89,8 +93,8 @@ def get_db_loader_type(config: dict, table_name: str, parsed_data: list, db_type
         case 'MongoDB':
             pass
 
-        case _:
-            print('Wrong DB type when trying choose loader.')
+        case _ as err:
+            logger.error('Wrong DB type when trying choose loader.', err)
 
 
 def load_to_mysql(config: dict, table_name: str, data_to_be_inserted: list) -> None:
@@ -103,10 +107,9 @@ def load_to_mysql(config: dict, table_name: str, data_to_be_inserted: list) -> N
     cnx = connect_to_mysql(config)
 
     if not cnx or not cnx.is_connected():
-        print("Could not connect")
+        logger.info("Could not connect")
     else:
-
-        print(f"Connected to database: {config['database']}")  # test load func, shouldn’t show up in prod
+        logger.info(f"Connected to database: {config['database']}")
 
         with cnx.cursor() as cursor:
 
@@ -117,12 +120,9 @@ def load_to_mysql(config: dict, table_name: str, data_to_be_inserted: list) -> N
                 list_obj = item_as_obj.get_list_attributes()
 
                 cursor.execute(sql, list_obj)
-                # emp_no = cursor.lastrowid  # get id of row, shouldn’t show up in prod
 
                 cnx.commit()
-                # print(cursor.rowcount, " rows got inserted. ")
-            # print(emp_no)
-        print('Copied data to DB.')
+        logger.info('Copied data to MySQL DB.')
         cursor.close()
         cnx.close()
 
@@ -132,7 +132,7 @@ def load_to_postgres(config: dict) -> None:
 
     :param config: configurations for connection to Postgres DB
     """
-    pass
+    logger.info('Started load data to PstgreSQL DB.')
 
 
 def full_load(order_paths: list, order_tables: list, config: dict) -> None:
@@ -142,9 +142,9 @@ def full_load(order_paths: list, order_tables: list, config: dict) -> None:
     :param order_tables: list with names of tables
     :param config: configurations for connection to chosen DB
     """
+    logger.info('Started full load.')
+
     for i in range(len(order_paths)):
-        # parsed_json = json_parser(order_paths[i])
-        # load_to_mysql(config, order_tables[i], parsed_data)
         parsed_data = get_processed_data(order_paths[i])
         get_db_loader_type(config, order_tables[i], parsed_data)
 
@@ -154,4 +154,4 @@ def incremental_load(config: dict) -> None:
 
     :param config: configurations for connection to chosen DB
     """
-    pass
+    logger.info('Started incremental load.')

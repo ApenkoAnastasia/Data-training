@@ -2,20 +2,7 @@ import logging
 import time
 import mysql.connector as mc
 
-# Set up logger
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-
-# Log to console
-handler = logging.StreamHandler()
-handler.setFormatter(formatter)
-logger.addHandler(handler)
-
-# Also log to a file
-file_handler = logging.FileHandler("mysql_connection_errors.log")
-file_handler.setFormatter(formatter)
-logger.addHandler(file_handler)
+logger = logging.getLogger('studentsLog')
 
 
 def connect_to_mysql(config: dict, attempts=3, delay=2):
@@ -34,7 +21,7 @@ def connect_to_mysql(config: dict, attempts=3, delay=2):
         except (mc.Error, IOError) as err:
             if (attempts is attempt):
                 # Attempts to reconnect failed; returning None
-                logger.info("Failed to connect, exiting without a connection: %s", err)
+                logger.info("Failed to connect, exiting without a connection: %s", err, exc_info=True)
                 return None
             logger.info(
                 "Connection failed: %s. Retrying (%d/%d)...",

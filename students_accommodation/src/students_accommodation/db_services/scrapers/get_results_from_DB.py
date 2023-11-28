@@ -1,12 +1,13 @@
 import csv
 import json
-import logging.config
+import logging
 
 from decimal import *
 from dicttoxml import dicttoxml
 from src.students_accommodation.db_services.connectors.mysql_connector import connect_to_mysql
-from src.students_accommodation.logger import logging_config
 from xml.dom.minidom import parseString
+
+logger = logging.getLogger('studentsLog')
 
 
 def get_procedure_name(argument: str) -> str:
@@ -29,8 +30,8 @@ def get_procedure_name(argument: str) -> str:
         case 'list_of_mix':
             return 'get_rooms_with_different_sex'
 
-        case _:
-            print('Wrong argument when trying call procedure.')
+        case _ as err:
+            logger.error('Wrong argument when trying call procedure.', err)
 
 
 def write_in_file(file_format: str, data: list, procedure_name: str, header_fields: list) -> None:
@@ -59,8 +60,8 @@ def write_in_file(file_format: str, data: list, procedure_name: str, header_fiel
                 writer.writeheader()
                 writer.writerows(data)
 
-        case _:
-            print('Wrong file format when trying write into file.')
+        case _ as err:
+            logger.error('Wrong file format when trying write into file.', err)
 
 
 def get_results_from_db(db_config: dict, procedures_args: dict, file_format: str) -> None:
@@ -72,15 +73,15 @@ def get_results_from_db(db_config: dict, procedures_args: dict, file_format: str
     :param procedures_args: dictionary with CLI procedures arguments
     :param file_format: argument from CLI with choosing file format (for saving data)
     """
+    logger.info('Start scrap data from DB.')
     for key, value in procedures_args.items():
         if value:
             with connect_to_mysql(db_config) as cnx:
 
                 if not cnx or not cnx.is_connected():
-                    print("Couldn't connect")
+                    logger.info(f"Couldn't connect to database: {db_config['database']}")
                 else:
-                    print(
-                        f"Connected to database: {db_config['database']}")  # test load func, shouldn’t show up in prod
+                    logger.info(f"Connected to database: {db_config['database']}")
 
                     with cnx.cursor() as cursor:
                         procedure_name = get_procedure_name(key)
@@ -112,4 +113,4 @@ def get_results_from_db(db_config: dict, procedures_args: dict, file_format: str
 
                             write_in_file(file_format, final_data_list, procedure_name, list_result_keys)
 
-                print('Scrap data from DB.')
+                logger.info('Scrap data from DB.')

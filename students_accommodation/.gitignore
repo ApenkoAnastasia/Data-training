@@ -6,6 +6,7 @@ __pycache__/
 # Folders
 output/
 source/
+logs/
 
 
 # Log files
