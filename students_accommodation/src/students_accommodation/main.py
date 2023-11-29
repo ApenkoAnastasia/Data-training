@@ -1,6 +1,5 @@
 import argparse
 import logging.config
-import os
 
 from src.students_accommodation.parsers.cli_parser import modify_parser
 from src.students_accommodation.parsers.config_parser import *
@@ -17,12 +16,10 @@ def main():
     logging.config.fileConfig(LOG_CONFIG_PATH)
     logger = logging.getLogger('studentsLog')
 
-    logger.info('Program started, main func.')
-
     # parse arguments from CLI
     parser = argparse.ArgumentParser(prog='python3 -m src.students_accommodation.main',
-                                     description='Help to get information about students accommodation by rooms.',
-                                     epilog='For more details go to the README.md.')
+                                     description='CLI application to get information about students accommodation by rooms.',
+                                     epilog='For more details go to the README.md file.')
     parser = modify_parser(parser)
     args = parser.parse_args()
 
@@ -31,16 +28,16 @@ def main():
     room_path = args.rooms_path
     try:
         with open(args.students_path, 'r') as file:
-            logger.info(f"File {file} exists.")
+            logger.info(f"File {file.name} exists.")
     except FileNotFoundError as err:
-        logger.warning(f"Cannot find file with students path {args.students_path}.", err)
+        logger.warning("Cannot find file with students path %s.", err, exc_info=True)
         stud_path = get_students_path()
 
     try:
         with open(args.rooms_path, 'r') as file:
-            logger.info(f"File {file} exists.")
+            logger.info(f"File {file.name} exists.")
     except FileNotFoundError as err:
-        logger.warning(f"Cannot find file with rooms path {args.rooms_path}.", err)
+        logger.warning("Cannot find file with rooms path %s.", err, exc_info=True)
         room_path = get_rooms_path()
 
     main_args = {'st_path': stud_path, 'rm_path': room_path,
@@ -65,8 +62,6 @@ def main():
 
     # receive processed data from DB and saving it into file
     get_results_from_db(db_config, procedures_args, main_args['file_format'])
-
-    logger.info('Program finished!')
 
 
 if __name__ == "__main__":

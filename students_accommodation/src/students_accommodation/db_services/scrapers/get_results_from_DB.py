@@ -76,41 +76,45 @@ def get_results_from_db(db_config: dict, procedures_args: dict, file_format: str
     logger.info('Start scrap data from DB.')
     for key, value in procedures_args.items():
         if value:
-            with connect_to_mysql(db_config) as cnx:
+            try:
+                with connect_to_mysql(db_config) as cnx:
 
-                if not cnx or not cnx.is_connected():
-                    logger.info(f"Couldn't connect to database: {db_config['database']}")
-                else:
-                    logger.info(f"Connected to database: {db_config['database']}")
+                    if not cnx or not cnx.is_connected():
+                        logger.info(f"Couldn't connect to database: {db_config['database']}")
+                    else:
+                        logger.info(f"Connected to database: {db_config['database']}")
 
-                    with cnx.cursor() as cursor:
-                        procedure_name = get_procedure_name(key)
-                        cursor.callproc(procedure_name)  # calling procedures
+                        with cnx.cursor() as cursor:
+                            procedure_name = get_procedure_name(key)
+                            cursor.callproc(procedure_name)  # calling procedures
 
-                        list_results = []  # original formats receiving results
-                        final_data_list = []  # changed formats receiving results
-                        for result in cursor.stored_results():
-                            list_result_keys = []
+                            list_results = []  # original formats receiving results
+                            final_data_list = []  # changed formats receiving results
+                            for result in cursor.stored_results():
+                                list_result_keys = []
 
-                            for field in result.description:
-                                list_result_keys.append(field[0])  # get column name from description
+                                for field in result.description:
+                                    list_result_keys.append(field[0])  # get column name from description
 
-                            data = result.fetchall()  # scrap data one time
+                                data = result.fetchall()  # scrap data one time
 
-                            for item in data:
-                                list_results.append(dict(zip(list_result_keys, item)))
+                                for item in data:
+                                    list_results.append(dict(zip(list_result_keys, item)))
 
-                            for list_item in list_results:
-                                new_dict = {}
-                                for d_key, d_value in list_item.items():
+                                for list_item in list_results:
+                                    new_dict = {}
+                                    for d_key, d_value in list_item.items():
 
-                                    if isinstance(d_value, Decimal):
-                                        new_dict[d_key] = float(d_value)
-                                    else:
-                                        new_dict[d_key] = d_value
+                                        if isinstance(d_value, Decimal):
+                                            new_dict[d_key] = float(d_value)
+                                        else:
+                                            new_dict[d_key] = d_value
 
-                                final_data_list.append(new_dict)
+                                    final_data_list.append(new_dict)
 
-                            write_in_file(file_format, final_data_list, procedure_name, list_result_keys)
+                                write_in_file(file_format, final_data_list, procedure_name, list_result_keys)
 
-                logger.info('Scrap data from DB.')
+                    logger.info('Scrap data from DB.')
+            except AttributeError as err:
+                logger.error("Couldn't connect to DB -> haven't got connection object as attribute: %s", err, exc_info=True)
+                return None

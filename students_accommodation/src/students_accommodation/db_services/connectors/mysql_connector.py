@@ -1,4 +1,5 @@
 import logging
+import sys
 import time
 import mysql.connector as mc
 
@@ -21,9 +22,9 @@ def connect_to_mysql(config: dict, attempts=3, delay=2):
         except (mc.Error, IOError) as err:
             if (attempts is attempt):
                 # Attempts to reconnect failed; returning None
-                logger.info("Failed to connect, exiting without a connection: %s", err, exc_info=True)
+                logger.error("Failed to connect, exiting without a connection: %s", err, exc_info=True)
                 return None
-            logger.info(
+            logger.warning(
                 "Connection failed: %s. Retrying (%d/%d)...",
                 err,
                 attempt,
