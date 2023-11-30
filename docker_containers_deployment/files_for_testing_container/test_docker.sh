@@ -1,5 +1,12 @@
 #!/bin/sh
 
+LOGFILE="test_docker_log.log"
+
+# stout, errors to log file
+exec 3>&1 1>"$LOGFILE" 2>&1
+trap "echo 'ERROR: An error occurred during execution, check log $LOGFILE for details.' >&3" ERR
+trap '{ set +x; } 2>/dev/null; echo -n "[$(date -Is)]  "; set -x' DEBUG
+
 echo "Hello-docker! We are inside!"
 
 #----- test Python
@@ -9,22 +16,22 @@ pip3 -V
 
 #----- test MySQL DB
 echo "Testing MySQL DB: "
-#systemctl status mysql
+service mysql start
 service mysql status
+echo "Next: enter your password to MySQL." >&3
+mysql -u 'root' -p -e 'SHOW DATABASES;'docker
 
 #----- test OS tools
 echo "Testing directories: "
 
-#if [ -e /tmp/Datasets/ml-latest-small/movies.csv ]; then
-#	echo "File csv exists."
-#elif [ -e /tmp/ml-latest-small.zip ]; then
-#	unzip /tmp/ml-latest-small.zip \*movies -d /tmp/Datasets
-#	rm /tmp/ml-latest-small.zip
-#else
-#	curl -P /tmp https://files.grouplens.org/datasets/movielens/ml-latest-small.zip
-#	unzip /tmp/ml-latest-small.zip \ml-latest-small/movies.csv -d /tmp/Datasets
-#	rm /tmp/ml-latest-small.zip
-#fi
-#
-#cd /tmp/Datasets/ml-latest-small
-#head movies.csv
+cd ../
+if [ -e ./students_accommodation/source/rooms.json -a -e ./students_accommodation/source/students.json ]; then
+	echo "Source files exists."
+	cd ./students_accommodation/source
+  head rooms.json
+  head students.json
+else
+	echo "Couldn't find source files."
+fi
+
+exec 1>&- | 2>&- | 3>&-

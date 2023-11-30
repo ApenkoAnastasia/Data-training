@@ -11,4 +11,4 @@ count=15
 
 #python3 -m src.students_accommodation.main -sp "./source/students.json" -rp "./source/rooms.json" --max_avg 1 -lm 1 --min_avg 1
 
-python3 -m src.students_accommodation.main -sp "./source/students.json" -rp "./source/rooms.json" -lc 1 -f xml
+python3 -m src.students_accommodation.main -sp "s./source/students.json" -rp "./source/rooms.json" -lc 1 -f xml

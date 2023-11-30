@@ -73,10 +73,11 @@ def main():
     order_tables = [table1, table2]
 
     # initial load to chosen DB
-    # full_load(order_paths, order_tables, db_config)
+    if args.initial_load:
+        full_load(order_paths, order_tables, db_config)
 
     # receive processed data from DB and saving it into file
-    # get_results_from_db(db_config, procedures_args, main_args['file_format'])
+    get_results_from_db(db_config, procedures_args, main_args['file_format'])
 
 
 if __name__ == "__main__":

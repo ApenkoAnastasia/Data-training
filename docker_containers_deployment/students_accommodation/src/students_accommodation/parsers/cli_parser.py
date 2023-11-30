@@ -54,4 +54,10 @@ def modify_parser(parser):
                         choices=[0, 1],
                         help="List of rooms where mixed-sex students live.")
 
+    parser.add_argument("--initial_load", "-il",
+                        type=int,
+                        default=0,
+                        choices=[0, 1],
+                        help="Choose necessary of making initial (full) load to DB.")
+
     return parser

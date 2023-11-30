@@ -1,5 +1,5 @@
-USERNAME=root
-PASSWORD=12344321
+USERNAME=defaultUser
+PASSWORD=defaultPWD
 HOST=localhost
 DATABASE=hostelDB
 URL="jdbc:mysql://localhost/hostelDB"
