@@ -29,5 +29,3 @@ BEGIN
 	FROM cte_max_avg AS cmax;
 END//
 DELIMITER ;
-
---CALL get_max_average_age;

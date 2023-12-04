@@ -30,5 +30,3 @@ BEGIN
 	FROM cte_min_avg AS cmin;
 END//
 DELIMITER ;
-
---CALL get_min_average_age;

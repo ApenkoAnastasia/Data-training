@@ -35,6 +35,10 @@ docker ps -as
 
 docker run -it --name $ContainerName $ImageName #bash
 
+#ls / -l
+#bash /test_docker.sh
+#bash /students_accommodation/orchestration/setupDB.sh
+
 #docker container exec -it $ContainerName bash
 
 #docker container restart $ContainerName

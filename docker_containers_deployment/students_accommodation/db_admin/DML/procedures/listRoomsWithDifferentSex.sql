@@ -14,5 +14,3 @@ BEGIN
 	WHERE cs.count_sex > 1;
 END//
 DELIMITER ;
-
---CALL get_rooms_with_different_sex;

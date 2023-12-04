@@ -7,11 +7,11 @@ and then set up Python, MySQL (also include MC, Git, Nano, some libraries, such 
 Allows to adjust the necessary layers and not to adjust unnecessary packages.
 
 #### Features
- - -imn | --image_name: "Set your image name. Default: ubuntu_image_test"
- - -cn | --container_name: "Set your cantainer name. Default: test_container"
+ - -imn | --image_name: "Set your image name. Default: stud_app_image"
+ - -cn | --container_name: "Set your cantainer name. Default: stud_app_container"
  - -h | --help: "Give help information"
- - -msu | --mysql_user: "Set your mysql user"
- - -msp | --mysql_password: "Set your mysql password"
+ - -msu | --mysql_user: "Set your mysql user. Default parameters are in /properties"
+ - -msp | --mysql_password: "Set your mysql password. Default parameters are in /properties"
 
 ## Installation
 #### Requirements

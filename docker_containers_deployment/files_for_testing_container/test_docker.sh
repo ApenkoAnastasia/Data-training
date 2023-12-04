@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-LOGFILE="test_docker_log.log"
+LOGFILE="/test_docker_log.log"
 
 # stout, errors to log file
 exec 3>&1 1>"$LOGFILE" 2>&1
@@ -19,7 +19,7 @@ echo "Testing MySQL DB: "
 service mysql start
 service mysql status
 echo "Next: enter your password to MySQL." >&3
-mysql -u 'root' -p -e 'SHOW DATABASES;'docker
+mysql -u 'root' -p -e 'SHOW DATABASES;'
 
 #----- test OS tools
 echo "Testing directories: "

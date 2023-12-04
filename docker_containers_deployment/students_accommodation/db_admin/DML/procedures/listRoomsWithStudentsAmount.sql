@@ -9,5 +9,3 @@ BEGIN
 	GROUP BY rl.room_name;
 END//
 DELIMITER ;
-
---CALL get_amount_of_students_in_rooms;
