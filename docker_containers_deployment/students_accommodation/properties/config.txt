@@ -1,4 +1,4 @@
-USERNAME=root
+USERNAME=defaultUSER
 PASSWORD=defaultPWD
 HOST=localhost
 DATABASE=hostelDB

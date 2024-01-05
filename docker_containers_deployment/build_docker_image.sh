@@ -3,7 +3,7 @@
 # Variables for setup.
 ImageName="stud_app_image"
 ContainerName="stud_app_container"
-MySQLUser="root"
+MySQLUser="defaultUSER"
 MySQLPassword="defaultPWD"
 
 

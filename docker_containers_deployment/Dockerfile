@@ -46,7 +46,14 @@ RUN service mysql stop && \
 	usermod -d /var/lib/mysql/ mysql && \
 	service mysql start && \
     service --status-all && \
-    mysql -password -e "ALTER USER '${MySQLUser}'@'localhost' IDENTIFIED BY '${MySQLPassword}';"
+    mysql -password -e "USE mysql;\
+                        CREATE USER '${MySQLUser}'@'localhost' IDENTIFIED BY '${MySQLPassword}';\
+                        GRANT ALL PRIVILEGES ON * . * TO '${MySQLUser}'@'localhost';\
+                        FLUSH PRIVILEGES;" && \
+    service mysql restart
+
+#    mysql -password -e "ALTER USER '${MySQLUser}'@'localhost' IDENTIFIED BY '${MySQLPassword}';"
+
 #    mysql -password -e "CREATE USER '${MySQLUser}'@'localhost' IDENTIFIED BY '${MySQLPassword}';\
 #                         GRANT ALL PRIVILEGES ON * . * TO '${MySQLUser}'@'localhost';\
 #                         FLUSH PRIVILEGES;SELECT user,authentication_string,plugin,host FROM mysql.user;"

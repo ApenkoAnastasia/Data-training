@@ -18,11 +18,6 @@ def test_connection_from_container(config: dict):
         cnx.close()
     except (AttributeError, IOError) as err:
         logger.error("Failed to connect, exiting without a connection. Can't close cursor: %s", err, exc_info=True)
-        # if not cnx or not cnx.is_connected():
-        #     logger.info("Could not connect")
-        # else:
-        #     logger.info(f"Connected to database: {config['database']}")
-        #     cnx.close()
 
 
 def main():
@@ -86,3 +81,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    logger.info("Program finished. ***********************")
