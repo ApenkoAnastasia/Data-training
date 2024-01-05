@@ -16,8 +16,8 @@ pip3 -V
 
 #----- test MySQL DB
 echo "Testing MySQL DB: "
+service --status-all
 service mysql start
-service mysql status
 echo "Next: enter your password to MySQL." >&3
 mysql -u 'root' -p -e 'SHOW DATABASES;'
 

@@ -22,17 +22,42 @@ Requires Docker to run.
 In CLI start program.
 Usage examples:
 
+Create and activate a virtual environment:
+```sh
+$ . venv/bin/activate
+```
+
 (1) To start build image and create container:
 
 ```sh
 $sh build_docker_image.sh -imn image_name -cn container_name -msu mysql_user -msp mysql_password
 ```
+The container's CLI will be opened and you can launch applications inside such Ubuntu container.
 
 (2) To test docker container run test_docker.sh from files_for_testing folder:
 
 ```sh
 $sh /test_docker.sh
 ```
+To see the result of test_docker.sh go to the log file:
+```sh
+$sh ls /
+$sh cat /test_docker_log.log
+```
+Or you can go to the Docker Desktop and open that file directly.
+
 All necessary user requirements will be installed through building an image. But if you want to create new user for MySQL go to the next steps.
 
 (3) To configure MySQL server open /instructions/MySQL_setup.txt and follow the instructions from the file in bash.
+
+(4) To run Students accommodation application in container's CLI go to folder:
+
+```sh
+$sh cd ./students_accommodation
+```
+And follow the instructions in README.md in this folder.
+
+To deactivate virtual environment:
+```sh
+$ deactivate
+```

@@ -34,6 +34,7 @@ There are several options of this command application:
 
 ```--list_of_mix ```, ```-lm```: List of rooms where mixed-sex students live. Choose 1 to activate option or 0 to exit without receiving such info.
 
+```--initial_load ```, ```-il```: Choose necessary of making initial (full) load to DB. Choose 1 to start initial load or 0 to run without full loading.
 
 ## Installation
 #### Requirements

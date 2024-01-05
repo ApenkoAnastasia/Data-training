@@ -13,14 +13,16 @@ LOG_CONFIG_PATH = './properties/logging.conf'
 
 
 def test_connection_from_container(config: dict):
-    cnx = connect_to_mysql(config)
-
-    if not cnx or not cnx.is_connected():
-        logger.info("Could not connect")
-    else:
-        logger.info(f"Connected to database: {config['database']}")
-
-    cnx.close()
+    try:
+        cnx = connect_to_mysql(config)
+        cnx.close()
+    except (AttributeError, IOError) as err:
+        logger.error("Failed to connect, exiting without a connection. Can't close cursor: %s", err, exc_info=True)
+        # if not cnx or not cnx.is_connected():
+        #     logger.info("Could not connect")
+        # else:
+        #     logger.info(f"Connected to database: {config['database']}")
+        #     cnx.close()
 
 
 def main():
@@ -44,6 +46,7 @@ def main():
     except FileNotFoundError as err:
         logger.warning("Cannot find file with students path %s.", err, exc_info=True)
         stud_path = get_students_path()
+        logger.info(f"Replace file path for such: {stud_path}.")
 
     try:
         with open(args.rooms_path, 'r') as file:
@@ -51,6 +54,7 @@ def main():
     except FileNotFoundError as err:
         logger.warning("Cannot find file with rooms path %s.", err, exc_info=True)
         room_path = get_rooms_path()
+        logger.info(f"Replace file path for such: {room_path}.")
 
     main_args = {'st_path': stud_path, 'rm_path': room_path,
                  'db_name': args.database, 'file_format': args.format}
