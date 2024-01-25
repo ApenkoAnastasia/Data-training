@@ -40,14 +40,21 @@ There are several options of this command application:
 #### Requirements
 Utility requires [Python](https://www.python.org/downloads/)  v3+ to run and Docker on your computer.
 
+Change directory:
+```commandline
+cd /students_accommodation
+```
+
 Create and activate a virtual environment:
 ```sh
+$ apt install python3.10-venv
+$ python3 -m venv venv
 $ . venv/bin/activate
 ```
-Install the requirements:
 
+Install requirements:
 ```sh
-$ pip install -r requirements.txt
+$ pip3 install -r requirements.txt
 ```
 
 ## Usage
