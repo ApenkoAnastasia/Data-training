@@ -1,0 +1,6 @@
+USERNAME=defaultUSER
+PASSWORD=defaultPWD
+HOST=localhost
+DATABASE=hostelDB
+URL="jdbc:mysql://localhost/hostelDB"
+DELIMITER=";"
