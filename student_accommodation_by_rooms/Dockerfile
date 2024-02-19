@@ -1,84 +1,28 @@
-# Download base image ubuntu v22.04.
-FROM ubuntu:22.04
+# Download base image python3 v3.10.12.
+FROM python:3.10.12
 
-# Copy files for testing our containers
-COPY /app ./students_accommodation/app
-COPY /db ./students_accommodation/db
-COPY /orchestration ./students_accommodation/orchestration
+# Copy project files.
+COPY ./app /app
 
 # Labels about this image.
-LABEL Name="docker_project_for_ubuntu"
+LABEL Name="student_accommodation_by_rooms"
 LABEL Maintainer="ApenkaAnastasiya on DockerHub"
 LABEL Version="0.0.1"
-LABEL Description="Docker image with Ubuntu 22.04 and layers such as: \
-Python, MySQL (also include MC, Git, Nano, some libraries, such as pip)"
+LABEL Description="Docker image with Python CLI app."
 
 # Disable Prompt During Packages Installation.
 ARG DEBIAN_FRONTEND=noninteractive
-
-# Install first layer and zip, unzip, curl from ubuntu repository.
-RUN apt-get update -y && \
-    apt-get install -y apt-utils && \
-    apt-get upgrade -y && \
-    apt-get install -y zip unzip && \
-    apt-get install -y curl && \
-    apt-get clean
-
-# Install Python layer (python 3).
-RUN apt-get update -y && \
-    apt-get upgrade -y && \
-    apt-get install -y python3 && \
-    apt-get install -y python3-pip && \
-    apt-get clean
-
-# Install MySQL layer.
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y mysql-server && \
-    pip3 install mysql-connector-python && \
-    apt-get clean
-
-# Arguments for creating users
-ARG MySQLUser
-ARG MySQLPassword
-
-# Configure MySQL user
-RUN service mysql stop && \
-	usermod -d /var/lib/mysql/ mysql && \
-	service mysql start && \
-    service --status-all && \
-    mysql -password -e "USE mysql;\
-                        CREATE USER '${MySQLUser}'@'localhost' IDENTIFIED WITH caching_sha2_password BY '${MySQLPassword}';\
-                        GRANT ALL PRIVILEGES ON * . * TO '${MySQLUser}'@'localhost';\
-                        FLUSH PRIVILEGES;" && \
-    service mysql restart
-
-# Install layer with Git.
-RUN apt-get update -y && \
-    apt-get upgrade -y && \
-    apt-get install -y git && \
-    apt-get clean
-
-# Install MC, Nano and etc. layer.
-RUN apt-get update -y && \
-    apt-get upgrade -y && \
-    apt-get install -y mc && \
-    apt-get install -y nano && \
-    apt-get clean
-
-# Set environment variables for MC.
-ENV TERM=xterm
-RUN export TERM=xterm
-
-# Run testing files inside container & instalation DB
-RUN service mysql restart && \
-    bash -c './students_accommodation/orchestration/setupDB.sh'
-
-# Set environment variables.
-ENV HOME /root
 
 # Start with bash.
 ENTRYPOINT ["bash"]
 
 # Define working directory.
-WORKDIR /root
+WORKDIR /app
+
+# Install packages.
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    pip3 install --no-cache-dir -r requirements.txt
+
+# Make port 8000 available to the world outside this container
+EXPOSE 8000

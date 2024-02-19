@@ -26,18 +26,13 @@ echo "user pass: " $MySQLPassword
 echo "user image_name: " $ImageName
 echo "user container_name: " $ContainerName
 
-docker build . -t $ImageName \
+docker-compose build . -t $ImageName \
 							--build-arg MySQLUser=$MySQLUser \
-							--build-arg MySQLPassword=$MySQLPassword #\
-							#-q
+							--build-arg MySQLPassword=$MySQLPassword
 
 docker ps -as
 
 docker run -it --name $ContainerName $ImageName #bash
-
-#ls / -l
-#bash /test_docker.sh
-#bash /app/orchestration/setupDB.sh
 
 #docker container exec -it $ContainerName bash
 
