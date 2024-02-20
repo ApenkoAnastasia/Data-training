@@ -3,30 +3,37 @@ services:
   app:
     build:
       context: .
-      args:
-        - MySQLUser=defaultUSER
-        - MySQLPassword=defaultPWD
+#      args:
+#        - MySQLUser=defaultUSER
+#        - MySQLPassword=defaultPWD
     ports:
       - "8000:8000"
     volumes:
       - ./app:/app
     environment:
-      - DATABASE_URL=mysql://defaultUSER:defaultPWD@db:3306/hostelDB
+      - DATABASE_URL=${DATABASE_URL}
     depends_on:
-      - db
+      - mysql
 
-  db:
+  mysql:
     image: mysql:8.0
+    restart: always
     volumes:
-      - db-data:/var/lib/mysql  # Persist database data
-#      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql  # Initialize the database schema
+      - db-data:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+#      - ./db:/db/
+#      - ./app:/app/
+#    command: [ "/bin/bash", "/db/orchestration/setupDB.sh" ]
     environment:
-      MYSQL_ROOT_PASSWORD:
-      MYSQL_DATABASE:
-      MYSQL_USER:
-      MYSQL_PASSWORD:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     ports:
       - "3306:3306"
 
 volumes:
-  db-data:  # Named volume for persisting database data
+  db-data:
+    driver: local
+#    driver_opts:
+#      size: "10GiB"

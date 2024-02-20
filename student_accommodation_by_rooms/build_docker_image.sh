@@ -21,14 +21,11 @@ do
     shift
 done
 
-echo "user name: " $MySQLUser
-echo "user pass: " $MySQLPassword
-echo "user image_name: " $ImageName
-echo "user container_name: " $ContainerName
-
 docker-compose build . -t $ImageName \
 							--build-arg MySQLUser=$MySQLUser \
 							--build-arg MySQLPassword=$MySQLPassword
+
+docker-compose --env-file .env.dev up
 
 docker ps -as
 
