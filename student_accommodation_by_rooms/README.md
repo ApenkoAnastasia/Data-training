@@ -36,7 +36,7 @@ $ python3 -m venv venv
 $ . venv/bin/activate
 ```
 
-(1) To start build image and create container:
+(1) To start build project and create containers:
 
 ```sh
 $ sh build_docker_image.sh -imn image_name -cn container_name -msu mysql_user -msp mysql_password

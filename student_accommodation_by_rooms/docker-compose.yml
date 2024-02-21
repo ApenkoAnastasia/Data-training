@@ -1,39 +1,25 @@
 version: '3.8'
 services:
-  app:
-    build:
-      context: .
-#      args:
-#        - MySQLUser=defaultUSER
-#        - MySQLPassword=defaultPWD
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./app:/app
-    environment:
-      - DATABASE_URL=${DATABASE_URL}
+  pythonapp:
+    build: ./app/
+    stdin_open: true  # docker run -i
+    tty: true         # docker run -t
     depends_on:
       - mysql
 
   mysql:
-    image: mysql:8.0
+    build: ./db/
     restart: always
     volumes:
       - db-data:/var/lib/mysql
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
-#      - ./db:/db/
-#      - ./app:/app/
-#    command: [ "/bin/bash", "/db/orchestration/setupDB.sh" ]
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     ports:
-      - "3306:3306"
+      - "8000:3306"
 
 volumes:
   db-data:
     driver: local
-#    driver_opts:
-#      size: "10GiB"

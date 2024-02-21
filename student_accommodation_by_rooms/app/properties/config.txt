@@ -1,6 +1,6 @@
 USERNAME=defaultUSER
 PASSWORD=defaultPWD
-HOST=db
+HOST=mysql
 DATABASE=hostelDB
-URL="jdbc:mysql://mysql/hostelDB"
+URL="jdbc:mysql://mysql:3306/hostelDB"
 DELIMITER=";"
