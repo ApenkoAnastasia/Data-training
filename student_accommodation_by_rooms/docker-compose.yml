@@ -1,17 +1,25 @@
-version: '3.8'
 services:
   pythonapp:
-    build: ./app/
-    stdin_open: true  # docker run -i
-    tty: true         # docker run -t
+    build: ./app
+    volumes:
+#      - ./app:/app
+      - ./orchestration/test_app.sh:/test_app.sh
     depends_on:
       - mysql
+    stdin_open: true  # docker run -i (interactive mode)
+    tty: true         # docker run -t
+    labels:
+      - "Name=python_app"
+      - "Maintainer=ApenkaAnastasiya"
+      - "Version=0.0.1"
+      - "Description=Docker image with Python CLI app."
 
   mysql:
-    build: ./db/
+    build: ./db
     restart: always
     volumes:
       - db-data:/var/lib/mysql
+    env_file: .env
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
@@ -19,6 +27,11 @@ services:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     ports:
       - "8000:3306"
+    labels:
+      - "Name=mysql_container"
+      - "Maintainer=ApenkaAnastasiya"
+      - "Version=0.0.1"
+      - "Description=Docker image with MySQL."
 
 volumes:
   db-data:

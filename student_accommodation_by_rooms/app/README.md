@@ -40,26 +40,6 @@ There are several options of this command application:
 #### Requirements
 Utility requires [Python](https://www.python.org/downloads/)  v3+ to run and Docker on your computer.
 
-[//]: # (Change directory:)
-
-[//]: # (```commandline)
-
-[//]: # (cd /students_accommodation)
-
-[//]: # (```)
-
-Create and activate a virtual environment:
-```sh
-$ apt install python3.10-venv
-$ python3 -m venv venv
-$ . venv/bin/activate
-```
-
-Install requirements:
-```sh
-$ pip3 install -r requirements.txt
-```
-
 ## Usage
 
 In command line interpreter start program.
@@ -103,7 +83,4 @@ $  python3 -m src.students_accommodation.main -sp 'path to the file' -rp 'path t
 
 You can save data in necessary format and mix different options in one launch. The following arguments are required: --students_path/-sp, --rooms_path/-rp.
 
-To deactivate virtual environment:
-```sh
-$ deactivate
-```
+The result files you can get in /output folder. Logs in /logs folder.

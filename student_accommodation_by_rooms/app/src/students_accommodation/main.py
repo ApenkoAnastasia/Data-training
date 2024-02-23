@@ -62,7 +62,6 @@ def main():
 
     # parse config file
     db_config = get_db_config(main_args['db_name'])
-    logger.info(f"DB configurations are: {db_config}.")
 
     table1, table2 = get_table_names()
 
