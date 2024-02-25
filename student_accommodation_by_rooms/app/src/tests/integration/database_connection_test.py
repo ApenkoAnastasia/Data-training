@@ -7,7 +7,7 @@ class TestDatabaseConnection(unittest.TestCase):
         config = {
             "user": "testUSER",
             "password": "testPWD",
-            "host": "mysql",
+            "host": "db_test",
             "port": 3306,
             "database": "testDB"
         }

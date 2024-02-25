@@ -3,26 +3,31 @@ from unittest.mock import patch
 from app.src.students_accommodation.main import main, test_connection_from_container
 
 
+
 class TestMainFunction(unittest.TestCase):
-    def test_test_connection_from_container(self):
-        # Arrange
-        expected_result = ...
+    def test_connection(self):
+        config = {
+            "user": "testUSER",
+            "password": "testPWD",
+            "host": "db_test",
+            "port": 3306,
+            "database": "testDB"
+        }
 
-        # Act
-        result = test_connection_from_container(...)
+        db_connection = test_connection_from_container(config)
+        self.assertIsNotNone(db_connection)
 
-        # Assert
-        self.assertEqual(result, expected_result)
+        cursor = db_connection.cursor()
+        cursor.execute("SELECT 1")
+        self.assertEqual(cursor.fetchone()[0], 1)
+
+        db_connection.close()
 
     def test_main(self):
-        # Arrange
-        expected_result = ...
+        # expected_result = 0 for success exit
 
-        # Act
         result = main()
-
-        # Assert
-        self.assertEqual(result, expected_result)
+        self.assertEqual(result, 0)
 
 
 if __name__ == '__main__':
